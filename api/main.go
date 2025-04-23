@@ -166,7 +166,7 @@ var modelMap = map[string]string{
 	"o3":	   "openai_o3",
 	"o4-mini-high":	   "openai_o4_mini_high",
 	"gpt-4.1":	   "gpt_4_1",
-	"grok-3-beta":	   "grok_3,
+	"grok-3-beta":	   "grok_3",
 }
 
 // getReverseModelMap 创建并返回 modelMap 的反向映射（You.com 模型名称 -> OpenAI 模型名称）。
