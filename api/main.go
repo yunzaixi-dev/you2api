@@ -162,7 +162,7 @@ var modelMap = map[string]string{
 	"claude-3-7-sonnet":       "claude_3_7_sonnet",
 	"claude-3-7-sonnet-think": "claude_3_7_sonnet_thinking",
 	"gpt-4.5-preview":         "gpt_4_5_preview",
-	"gemini-2.5-pro":	   "gemini_2_5_pro",
+	"gemini-2.5-pro":	   "gemini_2_5_pro_preview",
 	"o3":	   "openai_o3",
 	"o4-mini-high":	   "openai_o4_mini_high",
 	"gpt-4.1":	   "gpt_4_1",
