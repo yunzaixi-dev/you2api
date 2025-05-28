@@ -143,7 +143,6 @@ var modelMap = map[string]string{
 	"gpt-4o":                  "gpt_4o",
 	"gpt-4o-mini":             "gpt_4o_mini",
 	"claude-3-opus":           "claude_3_opus",
-	"claude-3-sonnet":         "claude_3_sonnet",
 	"claude-3.5-sonnet":       "claude_3_5_sonnet",
 	"gemini-1.5-pro":          "gemini_1_5_pro",
 	"gemini-2.0-flash":        "gemini_2_flash",
@@ -151,6 +150,7 @@ var modelMap = map[string]string{
 	"llama-4-maverick":        "llama4_maverick",
 	"llama-4-scout":           "llama4_scout",
 	"mistral-large-2":         "mistral_large_2",
+	"qwq-32b":                 "qwq_32b",
 	"qwen-2.5-72b":            "qwen2p5_72b",
 	"qwen-2.5-coder-32b":      "qwen2p5_coder_32b",
 	"command-r-plus":          "command_r_plus",
@@ -160,13 +160,15 @@ var modelMap = map[string]string{
 	"claude-4-sonnet-think":   "claude_4_sonnet_thinking",
         "claude-4-opus":           "claude_4_opus",
 	"claude-4-opus-think":     "claude_4_opus_thinking",
-	"gpt-4.5-preview":         "gpt_4_5_preview",
 	"gemini-2.5-pro":	   "gemini_2_5_pro_preview",
 	"o3":	   "openai_o3",
 	"o4-mini-high":	   "openai_o4_mini_high",
 	"gpt-4.1":	   "gpt_4_1",
 	"gpt-4.1-mini":	   "gpt_4_1_mini",
 	"grok-3-beta":	   "grok_3",
+	"grok-2":	   "grok_2",
+	"grok-3-mini-beta":	   "grok_3_mini",
+        "nous-hermes-2":	   "nous_hermes_2",
 }
 
 // getReverseModelMap 创建并返回 modelMap 的反向映射（You.com 模型名称 -> OpenAI 模型名称）。
