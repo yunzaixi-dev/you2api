@@ -1,4 +1,4 @@
-package main
+package handler
 
 import (
 	"bufio"
@@ -1248,14 +1248,4 @@ func ensurePlainText(content string) string {
 	return result.String()
 }
 
-func main() {
-	http.HandleFunc("/v1/chat/completions", Handler)
-	
-	fmt.Println("You2API 服务器启动在端口 8080")
-	fmt.Println("支持 OpenAI Vision API 兼容接口")
-	fmt.Println("访问地址: http://localhost:8080/v1/chat/completions")
-	
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		fmt.Printf("服务器启动失败: %v\n", err)
-	}
-}
+
