@@ -175,6 +175,7 @@ var modelMap = map[string]string{
 	"claude-4-opus-think":     "claude_4_opus_thinking",
 	"gemini-2.5-pro":	   "gemini_2_5_pro_preview",
 	"o3":	   "openai_o3",
+	"o3-pro":	   "openai_o3_pro",
 	"o4-mini-high":	   "openai_o4_mini_high",
 	"gpt-4.1":	   "gpt_4_1",
 	"gpt-4.1-mini":	   "gpt_4_1_mini",
