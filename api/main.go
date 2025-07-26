@@ -958,7 +958,7 @@ func getCookies(dsToken string) map[string]string {
 		"DS":                              dsToken,                // 关键的 DS token
 		"you_subscription":                "youpro_standard_year", // 示例订阅信息
 		"youpro_subscription":             "true",
-		"ai_model":                        "deepseek_r1", // 示例 AI 模型
+		"ai_model":                        "claude_4_sonnet", // 示例 AI 模型
 		"youchat_smart_learn":             "true",
 	}
 }
