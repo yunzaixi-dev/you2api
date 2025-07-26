@@ -169,20 +169,20 @@ var modelMap = map[string]string{
 	"command-r-plus":          "command_r_plus",
 	"claude-3-7-sonnet":       "claude_3_7_sonnet",
 	"claude-3-7-sonnet-think": "claude_3_7_sonnet_thinking",
-        "claude-4-sonnet":         "claude_4_sonnet",
+	"claude-4-sonnet":         "claude_4_sonnet",
 	"claude-4-sonnet-think":   "claude_4_sonnet_thinking",
-        "claude-4-opus":           "claude_4_opus",
+	"claude-4-opus":           "claude_4_opus",
 	"claude-4-opus-think":     "claude_4_opus_thinking",
-	"gemini-2.5-pro":	   "gemini_2_5_pro_preview",
-	"o3":	   "openai_o3",
-	"o3-pro":	   "openai_o3_pro",
-	"o4-mini-high":	   "openai_o4_mini_high",
-	"gpt-4.1":	   "gpt_4_1",
-	"gpt-4.1-mini":	   "gpt_4_1_mini",
-	"grok-3-beta":	   "grok_3",
-	"grok-2":	   "grok_2",
-	"grok-3-mini-beta":	   "grok_3_mini",
-        "nous-hermes-2":	   "nous_hermes_2",
+	"gemini-2.5-pro":          "gemini_2_5_pro_preview",
+	"o3":                      "openai_o3",
+	"o3-pro":                  "openai_o3_pro",
+	"o4-mini-high":            "openai_o4_mini_high",
+	"gpt-4.1":                 "gpt_4_1",
+	"gpt-4.1-mini":            "gpt_4_1_mini",
+	"grok-3-beta":             "grok_3",
+	"grok-2":                  "grok_2",
+	"grok-3-mini-beta":        "grok_3_mini",
+	"nous-hermes-2":           "nous_hermes_2",
 }
 
 // getReverseModelMap 创建并返回 modelMap 的反向映射（You.com 模型名称 -> OpenAI 模型名称）。
@@ -276,13 +276,13 @@ func hasImageContent(content interface{}) bool {
 // processImageContent 处理消息中的图片内容，上传图片并返回处理后的文本和sources
 func processImageContent(content interface{}, dsToken string) (string, string, error) {
 	textContent := extractTextContent(content)
-	
+
 	if !hasImageContent(content) {
 		return textContent, "", nil
 	}
-	
+
 	var sources []map[string]interface{}
-	
+
 	switch v := content.(type) {
 	case []interface{}:
 		for _, part := range v {
@@ -296,7 +296,7 @@ func processImageContent(content interface{}, dsToken string) (string, string, e
 									if err != nil {
 										return "", "", fmt.Errorf("处理图片失败: %v", err)
 									}
-									
+
 									// 添加到sources
 									source := map[string]interface{}{
 										"filename":      filename,
@@ -305,7 +305,7 @@ func processImageContent(content interface{}, dsToken string) (string, string, e
 										"user_filename": userFilename,
 									}
 									sources = append(sources, source)
-									
+
 									// 在文本中添加图片引用
 									textContent += fmt.Sprintf("\n查看这个图片文件：%s", userFilename)
 								}
@@ -316,7 +316,7 @@ func processImageContent(content interface{}, dsToken string) (string, string, e
 			}
 		}
 	}
-	
+
 	// 将sources转换为JSON字符串
 	sourcesJSON := ""
 	if len(sources) > 0 {
@@ -324,7 +324,7 @@ func processImageContent(content interface{}, dsToken string) (string, string, e
 			sourcesJSON = string(sourcesBytes)
 		}
 	}
-	
+
 	return textContent, sourcesJSON, nil
 }
 
@@ -333,7 +333,7 @@ func processImage(imageURL, dsToken string) (string, string, error) {
 	var imageData []byte
 	var err error
 	var originalFilename string
-	
+
 	if strings.HasPrefix(imageURL, "data:image/") {
 		// 处理base64图片
 		imageData, originalFilename, err = decodeBase64Image(imageURL)
@@ -347,7 +347,7 @@ func processImage(imageURL, dsToken string) (string, string, error) {
 			return "", "", fmt.Errorf("下载图片失败: %v", err)
 		}
 	}
-	
+
 	// 创建临时文件
 	tempFile, err := os.CreateTemp("", "upload_*"+filepath.Ext(originalFilename))
 	if err != nil {
@@ -355,19 +355,19 @@ func processImage(imageURL, dsToken string) (string, string, error) {
 	}
 	defer os.Remove(tempFile.Name())
 	defer tempFile.Close()
-	
+
 	// 写入图片数据
 	if _, err := tempFile.Write(imageData); err != nil {
 		return "", "", fmt.Errorf("写入临时文件失败: %v", err)
 	}
 	tempFile.Close()
-	
+
 	// 上传文件
 	uploadResp, err := uploadFile(dsToken, tempFile.Name())
 	if err != nil {
 		return "", "", fmt.Errorf("上传文件失败: %v", err)
 	}
-	
+
 	return uploadResp.Filename, uploadResp.UserFilename, nil
 }
 
@@ -378,7 +378,7 @@ func decodeBase64Image(dataURL string) ([]byte, string, error) {
 	if len(parts) != 2 {
 		return nil, "", fmt.Errorf("无效的data URL格式")
 	}
-	
+
 	// 提取MIME类型
 	header := parts[0]
 	var extension string
@@ -393,16 +393,16 @@ func decodeBase64Image(dataURL string) ([]byte, string, error) {
 	} else {
 		extension = ".png" // 默认
 	}
-	
+
 	// 解码base64数据
 	imageData, err := base64.StdEncoding.DecodeString(parts[1])
 	if err != nil {
 		return nil, "", fmt.Errorf("base64解码失败: %v", err)
 	}
-	
+
 	// 生成随机文件名
 	filename := fmt.Sprintf("%s_image%s", generateRandomString(6), extension)
-	
+
 	return imageData, filename, nil
 }
 
@@ -413,22 +413,22 @@ func downloadImage(imageURL string) ([]byte, string, error) {
 		return nil, "", fmt.Errorf("下载图片失败: %v", err)
 	}
 	defer resp.Body.Close()
-	
+
 	if resp.StatusCode != http.StatusOK {
 		return nil, "", fmt.Errorf("下载图片失败，状态码: %d", resp.StatusCode)
 	}
-	
+
 	imageData, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, "", fmt.Errorf("读取图片数据失败: %v", err)
 	}
-	
+
 	// 从URL中提取文件名
 	filename := filepath.Base(imageURL)
 	if filename == "." || filename == "/" {
 		filename = "downloaded_image.jpg"
 	}
-	
+
 	return imageData, filename, nil
 }
 
@@ -446,7 +446,7 @@ func generateRandomString(length int) string {
 func countTokens(content interface{}) int {
 	textContent := extractTextContent(content)
 	baseTokens := len(strings.Fields(textContent)) // 简单的单词计数估算
-	
+
 	// 如果包含图片，每张图片估算85个token
 	if hasImageContent(content) {
 		imageCount := 0
@@ -461,7 +461,7 @@ func countTokens(content interface{}) int {
 		}
 		baseTokens += imageCount * 85
 	}
-	
+
 	return baseTokens
 }
 
@@ -683,14 +683,14 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 				})
 
 				// 更新问题为文件引用
-				entry.Question = fmt.Sprintf("查看这个文件并且直接与文件内容进行聊天：%s.txt", strings.TrimSuffix(questionUploadResp.UserFilename, ".txt"))
+				entry.Question = fmt.Sprintf("please chat with this file, strictly follow the output format：%s.txt", strings.TrimSuffix(questionUploadResp.UserFilename, ".txt"))
 			}
 		}
 
 		// 处理回答 - 只对长回答进行文件上传
 		if entry.Answer != "" {
 			answerTokenCount, _ := countTokensForMessages([]Message{{Role: "assistant", Content: entry.Answer}})
-			
+
 			// 如果回答较长，上传为文件
 			if answerTokenCount >= 30 {
 				// 获取nonce
@@ -729,7 +729,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 				})
 
 				// 更新回答为文件引用
-				entry.Answer = fmt.Sprintf("查看这个文件并且直接与文件内容进行聊天：%s.txt", strings.TrimSuffix(answerUploadResp.UserFilename, ".txt"))
+				entry.Answer = fmt.Sprintf("please chat with this file, strictly follow the output format %s.txt", strings.TrimSuffix(answerUploadResp.UserFilename, ".txt"))
 			}
 		}
 	}
@@ -795,7 +795,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// 处理最后一条消息的内容（包括图片）
 	var finalQuery string
 	var imageSources string
-	
+
 	// 检查是否包含图片内容
 	if hasImageContent(lastMessage.Content) {
 		// 处理图片内容
@@ -851,7 +851,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		})
 
 		// 使用文件引用作为查询，确保包含.txt后缀
-		finalQuery = fmt.Sprintf("查看这个文件并且直接与文件内容进行聊天：%s.txt", strings.TrimSuffix(uploadResp.UserFilename, ".txt"))
+		finalQuery = fmt.Sprintf("please chat with this file, strictly follow the output format%s.txt", strings.TrimSuffix(uploadResp.UserFilename, ".txt"))
 	}
 
 	// 合并图片sources和其他sources
@@ -1248,5 +1248,3 @@ func ensurePlainText(content string) string {
 	}
 	return result.String()
 }
-
-
